@@ -1,58 +1,72 @@
-# Logistics-Operations-Intelligence
-from pathlib import Path
+# FleetFlow Analytics — Logistics Operations Intelligence
 
-readme = r"""# FleetFlow Analytics
-### Logistics Operations Intelligence
+End-to-end logistics analytics project built with **PostgreSQL, SQL, Power BI, and DAX**.
 
-An end-to-end logistics analytics project that transforms operational CSV data into a structured PostgreSQL reporting model and an interactive Power BI report for business analysis.
-
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-4D4D4D?style=flat-square)
-![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=flat-square&logo=powerbi&logoColor=000000)
-![DAX](https://img.shields.io/badge/DAX-5C2D91?style=flat-square)
+This project takes raw logistics CSV data through a structured ETL pipeline, transforms the data into clean and analysis-ready PostgreSQL tables, builds a reporting model for Power BI, and answers six operational business questions covering **customer revenue, delivery reliability, route economics, fleet productivity, maintenance, driver performance, and safety risk**.
 
 ---
 
-## Business Problem
+## Table of Contents
 
-Logistics operations generate large volumes of data across customers, loads, trips, fleet assets, drivers, maintenance activities, fuel usage, delivery events, and safety incidents. Raw operational records are useful for transaction processing, but they do not provide management with a single, reliable view of operational performance.
-
-The purpose of this project is to transform the source data into a structured analytical environment that can be used to evaluate performance, identify operational issues, and support business decision-making through SQL analysis and an interactive Power BI report.
+- [Business Problem](#business-problem)
+- [Project Objective](#project-objective)
+- [Project Scope](#project-scope)
+- [Data Overview](#data-overview)
+- [End-to-End Architecture](#end-to-end-architecture)
+- [ETL Workflow](#etl-workflow)
+  - [1. Extract](#1-extract)
+  - [2. Raw Layer](#2-raw-layer)
+  - [3. Transform](#3-transform)
+  - [4. Clean Layer](#4-clean-layer)
+  - [5. Reporting Layer](#5-reporting-layer)
+  - [6. Power BI](#6-power-bi)
+- [Data Quality & Transformation Decisions](#data-quality--transformation-decisions)
+  - [Missing Truck Assignments](#1-missing-truck-assignments)
+  - [Delivery Event Aggregation](#2-delivery-event-aggregation)
+  - [Fuel Aggregation](#3-fuel-aggregation)
+  - [Source On-Time Definition](#4-source-on-time-definition)
+  - [Fact-Level Grain](#5-fact-level-grain)
+- [Reporting Data Model](#reporting-data-model)
+- [Business Questions](#business-questions)
+  - [1. Customer Revenue & Service](#1-customer-revenue--service)
+  - [2. Route Economics](#2-route-economics)
+  - [3. Fleet Productivity](#3-fleet-productivity)
+  - [4. Maintenance & Downtime](#4-maintenance--downtime)
+  - [5. Driver Performance & Fuel Efficiency](#5-driver-performance--fuel-efficiency)
+  - [6. Safety & Operational Risk](#6-safety--operational-risk)
+- [Power BI Report](#power-bi-report)
+- [DAX Measures](#dax-measures)
+- [SQL Techniques Used](#sql-techniques-used)
+- [Key Findings](#key-findings)
+- [Important Analytical Assumptions](#important-analytical-assumptions)
+- [Technology Stack](#technology-stack)
+- [Repository Structure](#repository-structure)
+- [How to Reproduce the Project](#how-to-reproduce-the-project)
+- [Project Outcome](#project-outcome)
 
 ---
 
-## Project Objective
+# Business Problem
 
-The project was designed to:
+A logistics operation generates large amounts of operational data across customers, loads, trips, drivers, trucks, routes, delivery events, fuel purchases, maintenance records, and safety incidents.
 
-- Build a structured PostgreSQL environment for the logistics data.
-- Preserve the source data while creating analysis-ready tables.
-- Apply SQL transformations while controlling data grain and avoiding double counting.
-- Create a reporting model suitable for Power BI.
-- Analyse the operation through six practical business questions.
-- Deliver an interactive Power BI report that communicates the results clearly.
+The challenge is not simply storing this information. The larger challenge is turning these separate operational datasets into a consistent analytical view of the business.
 
----
+Management needs to understand where revenue is being generated, whether important customers are receiving reliable service, which transportation lanes are economically attractive, how individual trucks are performing, where maintenance and downtime are creating operational concerns, how driver performance differs, and where safety risk is concentrated.
 
-## End-to-End Workflow
+Because these questions require information from multiple operational datasets, analyzing each table independently can produce incomplete or misleading conclusions.
+
+FleetFlow Analytics was built to solve this problem by creating a complete analytical workflow:
 
 ```text
-CSV Source Data
-      │
-      ▼
-PostgreSQL Raw Layer
-      │
-      ▼
-SQL Transformation / Clean Layer
-      │
-      ▼
-PostgreSQL Reporting Layer
-      │
-      ▼
-Power BI Data Model
-      │
-      ▼
-DAX Measures + Interactive Report
-      │
-      ▼
-Business Insights
+Raw Logistics Data
+        ↓
+Data Cleaning
+        ↓
+Data Transformation
+        ↓
+Reporting Model
+        ↓
+Business Analysis
+        ↓
+Interactive Power BI Reporting
