@@ -25,7 +25,25 @@ Every number in this repo was verified against the raw source data before publis
 | Page | Visuals |
 |---|---|
 | 📈 **Executive Overview** | KPI cards · Top 10 Active Customers — Revenue & On-Time Delivery · Route Economics — Profit Proxy per Mile · Fleet Productivity — Revenue vs Miles |
+
+## 📊 Dashboard Preview
+
+### 1. Executive Overview
+Revenue performance, customer reliability, and route economics.
+
+<p align="center">
+  <img src="images/executive-overview.png" alt="FleetFlow Executive Overview Dashboard" width="100%">
+</p>
+
+
 | 🔧 **Fleet & Operations** | Maintenance & Downtime · Top 10 Drivers by Safety Risk · Driver Performance · Safety Detail by Driver (table) |
+### 2. Fleet & Operations
+Maintenance costs, driver performance, and safety risk.
+
+<p align="center">
+  <img src="images/fleet-operations.png" alt="FleetFlow Fleet and Operations Dashboard" width="100%">
+</p>
+
 
 ## 🗄️ Data Model
 
